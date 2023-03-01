@@ -1,5 +1,5 @@
 import 'zone.js'; // for angular subapp
-import { initGlobalState, registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start } from '../../es';
+import { initGlobalState, registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start } from '../../dist/esm';
 import './index.less';
 /**
  * 主应用 **可以使用任意技术栈**
