@@ -2,15 +2,15 @@
  * @Author: aaron.qi aaron.qi@wayz.ai
  * @Date: 2023-03-02 11:14:28
  * @LastEditors: aaron.qi aaron.qi@wayz.ai
- * @LastEditTime: 2023-03-02 11:44:06
+ * @LastEditTime: 2023-03-02 14:00:46
  * @FilePath: /qiankun/src/importHtmlContent.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-// @ts-ignore
+/* @ts-ignore @ts-expect-error */
 import processTpl, { genLinkReplaceSymbol } from 'import-html-entry/esm/process-tpl';
-// @ts-ignore
+/* @ts-ignore @ts-expect-error */
 import { defaultGetPublicPath } from 'import-html-entry/esm/utils';
-// @ts-ignore
+/* @ts-ignore @ts-expect-error */
 import { getExternalStyleSheets, getExternalScripts, execScripts } from 'import-html-entry';
 if (!window.fetch) {
   throw new Error('[import-html-entry] Here is no "fetch" on the window env, you need to polyfill it');
