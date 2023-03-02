@@ -88,6 +88,9 @@
       "js",
       "ts"
     ],
+    "setupFiles": [
+      "./test/setup.js"
+    ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.test.ts"
     ],
