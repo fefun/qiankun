@@ -9,6 +9,7 @@ import type { LifeCycles, ParcelConfigObject } from 'single-spa';
 import getAddOns from './addons';
 import { QiankunError } from './error';
 import { getMicroAppStateActions } from './globalState';
+import importHTMLContent from './importHtmlContent';
 import type {
   FrameworkConfiguration,
   FrameworkLifeCycles,
@@ -246,7 +247,8 @@ export async function loadApp<T extends ObjectType>(
   configuration: FrameworkConfiguration = {},
   lifeCycles?: FrameworkLifeCycles<T>,
 ): Promise<ParcelConfigObjectGetter> {
-  const { entry, name: appName } = app;
+  const { name: appName, entryContent } = app;
+  const entry = app.entry;
   const appInstanceId = genAppInstanceIdByName(appName);
 
   const markName = `[qiankun] App ${appInstanceId} Loading`;
@@ -263,9 +265,17 @@ export async function loadApp<T extends ObjectType>(
   } = configuration;
 
   // get the entry html content and script executor
-  const { template, execScripts, assetPublicPath, getExternalScripts } = await importEntry(entry, importEntryOpts);
+  let importRes: { template: string; execScripts: any; assetPublicPath: string; getExternalScripts: any };
+  if (entryContent) {
+    importRes = await importHTMLContent(entryContent, importEntryOpts);
+  } else {
+    importRes = await importEntry(entry, importEntryOpts);
+  }
+  const { template, execScripts, assetPublicPath, getExternalScripts } = importRes;
+
   // trigger external scripts loading to make sure all assets are ready before execScripts calling
   await getExternalScripts();
+  console.log('after getExternalScripts');
 
   // as single-spa load and bootstrap new app parallel with other apps unmounting
   // (see https://github.com/CanopyTax/single-spa/blob/master/src/navigation/reroute.js#L74)

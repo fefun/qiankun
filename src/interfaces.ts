@@ -32,6 +32,8 @@ export type AppMetadata = {
   name: string;
   // app entry
   entry: Entry;
+  // html content
+  entryContent: string;
 };
 
 // just for manual loaded apps, in single-spa it called parcel
