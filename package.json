@@ -10,16 +10,13 @@
     "micro-frontends",
     "microservice"
   ],
-  "homepage": "https://github.com/kuitos/qiankun#readme",
-  "bugs": {
-    "url": "https://github.com/kuitos/qiankun/issues"
-  },
+  "homepage": "https://github.com/fefun/qiankun#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kuitos/qiankun.git"
+    "url": "git+https://github.com/fefun/qiankun.git"
   },
   "license": "MIT",
-  "author": "Kuitos",
+  "author": "Aaron",
   "sideEffects": false,
   "main": "./dist/lib/index.js",
   "module": "./dist/esm/index.js",
