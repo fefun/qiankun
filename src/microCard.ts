@@ -211,6 +211,7 @@ export default class MicroCard {
     const speedySandbox = typeof sandbox === 'object' ? sandbox.speedy !== false : true;
     if (this.sandboxContainer) {
       // unmount first
+      this.sandboxContainer.instance.proxy.__POWERED_BY_QIANKUN__ = false;
       await this.sandboxContainer.unmount();
     }
     let sandboxContainer;
@@ -226,6 +227,7 @@ export default class MicroCard {
       );
       // 用沙箱的代理对象作为接下来使用的全局对象
       global = sandboxContainer.instance.proxy as typeof window;
+      global.__POWERED_BY_QIANKUN__ = true;
     }
 
     await execScripts(global, sandbox && !useLooseSandbox, {
@@ -275,6 +277,7 @@ export default class MicroCard {
       this.lifecycleHooks = {};
     }
     if (this.sandboxContainer) {
+      this.sandboxContainer.instance.proxy.__POWERED_BY_QIANKUN__ = false;
       await this.sandboxContainer.unmount();
       this.sandboxContainer = undefined;
     }

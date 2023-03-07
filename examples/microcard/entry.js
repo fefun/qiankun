@@ -2,7 +2,7 @@
  * @Author: aaron.qi aaron.qi@wayz.ai
  * @Date: 2023-03-01 16:26:31
  * @LastEditors: aaron.qi aaron.qi@wayz.ai
- * @LastEditTime: 2023-03-07 15:10:51
+ * @LastEditTime: 2023-03-07 15:46:14
  * @FilePath: /qiankun/examples/purehtml/entry.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -58,7 +58,7 @@ function genRawHtml(id) {
       $(container).find("#count").text("count: " + state.count)
       return Promise.resolve();
     };
-    
+    console.log('__POWERED_BY_QIANKUN__', window.__POWERED_BY_QIANKUN__);
     (global => {
       global['__entry__'] = {
         mount: ({container, state}) => {
