@@ -1,0 +1,59 @@
+<!--
+ * @Author: aaron.qi aaron.qi@wayz.ai
+ * @Date: 2023-03-07 14:59:44
+ * @LastEditors: aaron.qi aaron.qi@wayz.ai
+ * @LastEditTime: 2023-03-07 15:00:19
+ * @FilePath: /qiankun/examples/purehtml/card.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>card Example</title>
+    <script src="//cdn.bootcss.com/jquery/3.4.1/jquery.min.js">
+    </script>
+    <script>
+    const render = ($, container, state) => {
+      $(container).find("#count").text("count: " + state.count)
+      return Promise.resolve();
+    };
+    
+    (global => {
+      global['__entry__'] = {
+        mount: ({container, state}) => {
+          console.log('card mount ${id}', state);
+          return render($, container, state);
+        },
+        unmount: ({container, state}) => {
+          console.log('purehtml unmount ${id}', state);
+          return Promise.resolve();
+        },
+        update: ({container, state, prevState, dispatch}) => {
+          console.log('purehtml update ${id}', state, prevState);
+          setTimeout(()=>{
+            dispatch('childMessage', {childId: '${id}' , date: new Date()})
+          }, 1000)
+          return render($, container, state);
+        },
+      };
+    })(window);
+    </script>
+    <style>
+    .box{
+      border: solid 1px #dddddd;
+      background: yellow;
+      width: 500px;
+      height: 100px;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      Example ${id}
+      <p>create time ${new Date()}</p>
+      <div id="count">count: </div>
+    </div>
+  </body>
+  </html>

@@ -43,6 +43,8 @@
     "start:angular9": "cd examples/angular9 && yarn serve:qiankun",
     "install:purehtml": "cd examples/purehtml && yarn",
     "start:purehtml": "cd examples/purehtml && yarn start",
+    "install:microcard": "cd examples/microcard && yarn",
+    "start:microcard": "cd examples/microcard && yarn start",
     "install:vue3": "cd examples/vue3 && yarn",
     "start:vue3": "cd examples/vue3 && yarn start",
     "dev": "father dev",

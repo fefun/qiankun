@@ -1,0 +1,84 @@
+<!--
+ * @Author: aaron.qi aaron.qi@wayz.ai
+ * @Date: 2023-03-06 16:40:57
+ * @LastEditors: aaron.qi aaron.qi@wayz.ai
+ * @LastEditTime: 2023-03-07 15:11:14
+ * @FilePath: /qiankun/examples/microcard/index.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purehtml Example</title>
+    <script src="//cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+      .card-box {
+      }
+
+      .btns span {
+        margin: 0 10px;
+        color: blue;
+        cursor: pointer;
+      }
+      #card_5 {
+        height: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="display: flex; justify-content: center; align-items: center">
+      <div class="card-box">
+        <!-- 微卡片 -->
+        <div class="card-wrap">
+          <div class="btns" data-id="card_1">
+            <span data-act="add">add</span>
+            <span data-act="del">del</span>
+            <span data-act="mount">mount</span>
+            <span data-act="unmount">unmount</span>
+          </div>
+          <div class="card" id="card_1"></div>
+        </div>
+        <div class="card-wrap">
+          <div class="btns" data-id="card_2">
+            <span data-act="add">add</span>
+            <span data-act="del">del</span>
+            <span data-act="mount">mount</span>
+            <span data-act="unmount">unmount</span>
+          </div>
+          <div class="card" id="card_2"></div>
+        </div>
+        <div class="card-wrap">
+          <div class="btns" data-id="card_3">
+            <span data-act="add">add</span>
+            <span data-act="del">del</span>
+            <span data-act="mount">mount</span>
+            <span data-act="unmount">unmount</span>
+          </div>
+          <div class="card" id="card_3"></div>
+        </div>
+        <div class="card-wrap">
+          <div class="btns" data-id="card_4">
+            <span data-act="add">add</span>
+            <span data-act="del">del</span>
+            <span data-act="mount">mount</span>
+            <span data-act="unmount">unmount</span>
+          </div>
+          <div class="card" id="card_4"></div>
+        </div>
+        <div class="card-wrap">
+          <div class="btns" data-id="card_5">
+            <span data-act="add">add</span>
+            <span data-act="del">del</span>
+            <span data-act="mount">mount</span>
+            <span data-act="unmount">unmount</span>
+          </div>
+          <div class="card" id="card_5"></div>
+        </div>
+      </div>
+    </div>
+    <div id="purehtml-container" style="text-align: center"></div>
+    <!-- <script src="//localhost:7107/entry.js" entry></script> -->
+  </body>
+</html>

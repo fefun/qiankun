@@ -2,7 +2,7 @@
  * @Author: aaron.qi aaron.qi@wayz.ai
  * @Date: 2023-03-02 11:14:28
  * @LastEditors: aaron.qi aaron.qi@wayz.ai
- * @LastEditTime: 2023-03-02 15:03:03
+ * @LastEditTime: 2023-03-06 18:15:42
  * @FilePath: /qiankun/src/importHtmlContent.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -12,10 +12,21 @@ import { defaultGetPublicPath } from 'import-html-entry/lib/utils';
 import processTpl, { genLinkReplaceSymbol } from 'import-html-entry/lib/process-tpl';
 // @ts-ignore
 import { getExternalStyleSheets, getExternalScripts, execScripts } from 'import-html-entry';
+import type { ExecScriptOpts } from 'import-html-entry';
 if (!window.fetch) {
   throw new Error('[import-html-entry] Here is no "fetch" on the window env, you need to polyfill it');
 }
+export interface IImportResult {
+  template: string;
 
+  assetPublicPath: string;
+
+  execScripts: <T>(sandbox?: object, strictGlobal?: boolean, opts?: ExecScriptOpts) => Promise<T>;
+
+  getExternalScripts: () => Promise<string[]>;
+
+  getExternalStyleSheets: () => Promise<string[]>;
+}
 const isInlineCode = (code: string) => code.startsWith('<');
 
 const defaultFetch = window.fetch.bind(window);
@@ -45,7 +56,7 @@ function getEmbedHTML(template: string, styles: any, opts = {} as any) {
     return embedHTML;
   });
 }
-export default function importHTMLContent(html: string, opts = {} as any) {
+export default function importHTMLContent(html: string, opts = {} as any): Promise<IImportResult> {
   const fetch = defaultFetch;
   let getPublicPath = defaultGetPublicPath;
   let getTemplate = defaultGetTemplate;
@@ -62,7 +73,7 @@ export default function importHTMLContent(html: string, opts = {} as any) {
       template: embedHTML,
       assetPublicPath,
       getExternalScripts: () => getExternalScripts(scripts, fetch),
-      getExternalStyleSheets: () => getExternalStyleSheets(styles, fetch),
+      // getExternalStyleSheets: () => getExternalStyleSheets(styles, fetch),
       execScripts: (proxy: any, strictGlobal: any, opts2 = {} as any) => {
         if (!scripts.length) {
           return Promise.resolve();

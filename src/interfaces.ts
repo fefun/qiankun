@@ -56,6 +56,21 @@ export type RegistrableApp<T extends ObjectType> = LoadableApp<T> & {
   activeRule: RegisterApplicationConfig['activeWhen'];
 };
 
+export type SandBoxConfig =
+  | boolean
+  | {
+      strictStyleIsolation?: boolean;
+      experimentalStyleIsolation?: boolean;
+      /**
+       * @deprecated We use strict mode by default
+       */
+      loose?: boolean;
+      /**
+       * use speed sandbox mode, enabled by default from 2.9.0
+       */
+      speedy?: boolean;
+      patchers?: Patcher[];
+    };
 export type PrefetchStrategy =
   | boolean
   | 'all'
@@ -68,21 +83,7 @@ type QiankunSpecialOpts = {
    */
   $$cacheLifecycleByAppName?: boolean;
   prefetch?: PrefetchStrategy;
-  sandbox?:
-    | boolean
-    | {
-        strictStyleIsolation?: boolean;
-        experimentalStyleIsolation?: boolean;
-        /**
-         * @deprecated We use strict mode by default
-         */
-        loose?: boolean;
-        /**
-         * use speed sandbox mode, enabled by default from 2.9.0
-         */
-        speedy?: boolean;
-        patchers?: Patcher[];
-      };
+  sandbox?: SandBoxConfig;
   /*
     with singular mode, any app will wait to load until other apps are unmouting
     it is useful for the scenario that only one sub app shown at one time
@@ -145,4 +146,13 @@ export type MicroAppStateActions = {
   onGlobalStateChange: (callback: OnGlobalStateChangeCallback, fireImmediately?: boolean) => void;
   setGlobalState: (state: Record<string, any>) => boolean;
   offGlobalStateChange: () => boolean;
+};
+
+export type OnStateChangeCallback = (state: Record<string, any>, prevState: Record<string, any>) => void;
+
+export type StateActions = {
+  onStateChange: (callback: OnStateChangeCallback, fireImmediately?: boolean) => void;
+  setState: (state: Record<string, any>) => boolean;
+  getState: () => Record<string, any>;
+  offStateChange: () => boolean;
 };

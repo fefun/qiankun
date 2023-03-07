@@ -123,3 +123,67 @@ loadMicroApp(
   { sandbox: { experimentalStyleIsolation: true } },
 );
 ```
+
+2. micro card
+
+```js
+new MicroCard({ name: name, container: container }).setState({ count: 0 }).loadContent(htmltext); // load html raw text content
+// .load(http url)  // or load http url content
+```
+
+html content use `global.__entry__` to export lifecycle hooks
+
+```html
+`<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="//cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      const render = ($, container, state) => {
+        $(container)
+          .find('#count')
+          .text('count: ' + state.count);
+        return Promise.resolve();
+      };
+
+      ((global) => {
+        // important
+        global['__entry__'] = {
+          mount: ({ container, state }) => {
+            console.log('purehtml mount ${id}', state);
+            return render($, container, state);
+          },
+          unmount: ({ container, state }) => {
+            console.log('purehtml unmount ${id}', state);
+            return Promise.resolve();
+          },
+          update: ({ container, state, prevState, dispatch }) => {
+            console.log('purehtml update ${id}', state, prevState);
+            setTimeout(() => {
+              dispatch('childMessage', { childId: '${id}', date: new Date() });
+            }, 1000);
+            return render($, container, state);
+          },
+        };
+      })(window);
+    </script>
+    <style>
+      .box {
+        width: 500px;
+        height: 100px;
+        background: rgb(${255 - idx * 30}, ${idx * 30}, 0);
+        border: solid 1px #dddddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      Example ${id}
+      <p>create time ${new Date()}</p>
+      <div id="count">count:</div>
+    </div>
+  </body>
+</html>
+```

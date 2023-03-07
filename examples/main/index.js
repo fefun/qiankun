@@ -113,6 +113,13 @@ registerMicroApps(
       loader,
       activeRule: '/htmldoc',
     },
+    {
+      name: 'microcard',
+      entry: '//localhost:7107',
+      container: '#subapp-viewport',
+      loader,
+      activeRule: '/microcard',
+    },
   ],
   {
     beforeLoad: [
@@ -159,3 +166,4 @@ start();
 runAfterFirstMounted(() => {
   console.log('[MainApp] first app mounted');
 });
+
