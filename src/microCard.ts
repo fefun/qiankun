@@ -60,7 +60,7 @@ export default class MicroCard {
   perfMarkName: string;
 
   constructor(app: AppCofig) {
-    this.uid = 'micro_' + Math.round(new Date().getTime() + Math.random() * 1e10).toString(16);
+    this.uid = 'micro_' + new Date().getTime().toString(16) + Math.round(Math.random() * 1e10).toString(16);
     const { name, container, entry, entryContent, sandbox = { experimentalStyleIsolation: true } } = app;
     this.name = name;
     this.entry = entry;
@@ -178,7 +178,7 @@ export default class MicroCard {
 
     let global = window;
 
-    const appContent = getDefaultTplWrapper(uid, sandbox)(template);
+    const appContent = getDefaultTplWrapper(uid, sandbox, this.name)(template);
 
     const strictStyleIsolation = typeof sandbox === 'object' && !!sandbox.strictStyleIsolation;
 

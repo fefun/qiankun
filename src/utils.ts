@@ -130,7 +130,7 @@ export function isBoundedFunction(fn: CallableFunction) {
 
 export const qiankunHeadTagName = 'qiankun-head';
 
-export function getDefaultTplWrapper(name: string, sandboxOpts: FrameworkConfiguration['sandbox']) {
+export function getDefaultTplWrapper(id: string, sandboxOpts: FrameworkConfiguration['sandbox'], name?: string) {
   return (tpl: string) => {
     let tplWithSimulatedHead: string;
 
@@ -144,11 +144,9 @@ export function getDefaultTplWrapper(name: string, sandboxOpts: FrameworkConfigu
       tplWithSimulatedHead = `<${qiankunHeadTagName}></${qiankunHeadTagName}>${tpl}`;
     }
 
-    return `<div id="${getWrapperId(
-      name,
-    )}" data-name="${name}" data-version="${version}" data-sandbox-cfg=${JSON.stringify(
-      sandboxOpts,
-    )}>${tplWithSimulatedHead}</div>`;
+    return `<div id="${getWrapperId(id)}" data-name="${
+      name || id
+    }" data-version="${version}" data-sandbox-cfg=${JSON.stringify(sandboxOpts)}>${tplWithSimulatedHead}</div>`;
   };
 }
 
