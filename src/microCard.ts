@@ -26,6 +26,7 @@ type AppCofig = {
   entry?: string;
   entryContent?: string;
   sandbox?: SandBoxConfig;
+  importEntryOpts?: ImportEntryOpts;
 };
 type TState = Record<string, any>;
 type TLinstener = (data: any) => void;
@@ -58,13 +59,22 @@ export default class MicroCard {
   private state: TState = {};
   private stateOld: TState = {};
   perfMarkName: string;
+  importEntryOpts: ImportEntryOpts;
 
   constructor(app: AppCofig) {
     this.uid = 'micro_' + new Date().getTime().toString(16) + Math.round(Math.random() * 1e10).toString(16);
-    const { name, container, entry, entryContent, sandbox = { experimentalStyleIsolation: true } } = app;
+    const {
+      name,
+      container,
+      entry,
+      entryContent,
+      sandbox = { experimentalStyleIsolation: true },
+      importEntryOpts = {},
+    } = app;
     this.name = name;
     this.entry = entry;
     this.entryContent = entryContent;
+    this.importEntryOpts = importEntryOpts;
     this.sandbox = sandbox;
     this.perfMarkName = `[qiankun] App ${this.name} Loading`;
     const $con = getContainer(container);
@@ -157,7 +167,7 @@ export default class MicroCard {
    * @param importEntryOpts
    */
   load(url: string, importEntryOpts?: ImportEntryOpts) {
-    importEntry(url, importEntryOpts).then((res) => {
+    importEntry(url, importEntryOpts || this.importEntryOpts).then((res) => {
       this._exec(res);
     });
     return this;
@@ -166,8 +176,8 @@ export default class MicroCard {
    * 加载html内容
    * @param htmlContent
    */
-  loadContent(htmlContent: string) {
-    importHTMLContent(htmlContent).then((res) => {
+  loadContent(htmlContent: string, importEntryOpts?: ImportEntryOpts) {
+    importHTMLContent(htmlContent, importEntryOpts || this.importEntryOpts).then((res) => {
       this._exec(res);
     });
     return this;
@@ -177,7 +187,11 @@ export default class MicroCard {
     const uid = this.uid;
 
     let global = window;
+    const markName = this.perfMarkName;
 
+    if (process.env.NODE_ENV === 'development') {
+      performanceMark(markName);
+    }
     const appContent = getDefaultTplWrapper(uid, sandbox, this.name)(template);
 
     const strictStyleIsolation = typeof sandbox === 'object' && !!sandbox.strictStyleIsolation;
@@ -235,7 +249,6 @@ export default class MicroCard {
     });
     this.lifecycleHooks = global.__entry__ || {};
 
-    const markName = this.perfMarkName;
     if (process.env.NODE_ENV === 'development') {
       const marks = performanceGetEntriesByName(markName, 'mark');
       if (marks && !marks.length) {
