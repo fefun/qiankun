@@ -1,9 +1,8 @@
-import { importEntry } from 'import-html-entry';
 import type { ImportEntryOpts } from 'import-html-entry';
 import { forEach } from 'lodash';
 import { cloneDeep } from 'lodash';
 import { QiankunError } from './error';
-import importHTMLContent from './importHtmlContent';
+import importHTMLContent, { importHTML } from './importHtmlContent';
 import type { IImportResult } from './importHtmlContent';
 import type { OnGlobalStateChangeCallback, SandBox, SandBoxConfig } from './interfaces';
 import { createSandboxContainer, css } from './sandbox';
@@ -167,7 +166,7 @@ export default class MicroCard {
    * @param importEntryOpts
    */
   load(url: string, importEntryOpts?: ImportEntryOpts) {
-    importEntry(url, importEntryOpts || this.importEntryOpts).then((res) => {
+    importHTML(url, importEntryOpts || this.importEntryOpts).then((res) => {
       this._exec(res);
     });
     return this;
