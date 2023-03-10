@@ -2,7 +2,7 @@
  * @Author: aaron.qi aaron.qi@wayz.ai
  * @Date: 2023-03-02 11:14:28
  * @LastEditors: aaron.qi aaron.qi@wayz.ai
- * @LastEditTime: 2023-03-10 14:36:30
+ * @LastEditTime: 2023-03-10 14:41:35
  * @FilePath: /qiankun/src/importHtmlContent.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -36,7 +36,7 @@ function defaultGetTemplate(tpl: string) {
   return tpl;
 }
 
-const ASSET_URL_REG = /url\((['"])?([^#'"):,;]+)['"]?\)/gi;
+const ASSET_URL_REG = /url\(['"]?([^#'"):,;]+)['"]?\)/gi;
 
 /**
  * 补全字体/图片链接
@@ -45,7 +45,7 @@ const ASSET_URL_REG = /url\((['"])?([^#'"):,;]+)['"]?\)/gi;
  * @returns
  */
 function setAssetsUrl(content: string, url: string) {
-  const res = content.replace(ASSET_URL_REG, (_, quote, path) => {
+  const res = content.replace(ASSET_URL_REG, (_, path) => {
     const link = new URL(path, url);
     return `url('${link.href}')`;
   });
